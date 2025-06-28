@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clash of Magic Server</title>
+  <style>
+    :root {
+      --bg-dark: #111;
+      --text-dark: #ccc;
+      --timer-dark: #ffc107;
+
+      --bg-light: #f9f9f9;
+      --text-light: #222;
+      --timer-light: #ff9800;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+      text-align: center;
+      padding: 50px 20px;
+      transition: all 0.3s ease;
+    }
+
+    [data-theme="light"] body {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .highlight {
+      color: red;
+    }
+
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: block;
+      width: 220px;
+      margin: 10px auto;
+      padding: 10px 0;
+      font-size: 15px;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+    }
+
+    .green { background-color: #28a745; }
+    .green:hover { background-color: #218838; }
+
+    .blue { background-color: #007bff; }
+    .blue:hover { background-color: #0069d9; }
+
+    .red { background-color: #dc3545; }
+    .red:hover { background-color: #c82333; }
+
+    .gray { background-color: #6c757d; cursor: default; }
+
+    .icons {
+      margin-top: 40px;
+    }
+
+    .icons img {
+      width: 28px;
+      margin: 0 8px;
+    }
+
+    #timer {
+      font-size: 13px;
+      margin-top: 5px;
+      color: var(--timer-dark);
+    }
+
+    [data-theme="light"] #timer {
+      color: var(--timer-light);
+    }
+
+    #toggleMode {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: 1px solid #888;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: inherit;
+      background-color: transparent;
+      transition: 0.3s;
+    }
+
+    #toggleMode:hover {
+      background-color: rgba(200, 200, 200, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <button id="toggleMode">🌙 Mode</button>
+
+  <h1><span class="highlight">Clash of</span> Magic Server</h1>
+  <p>Server COC private terbaik untuk pengalaman bermain yang luar biasa.</p>
+
+  <!-- Tombol dan Timer -->
+  <div>
+    <button class="button green" id="coc-button">COC Private Server</button>
+    <div id="timer"></div>
+  </div>
+
+  <!-- Tombol Subscribe -->
+  <button class="button red" id="subscribe-button">Subscribe</button>
+
+  <!-- Ikon Sosial -->
+  <div class="icons">
+    <a href="#"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png"/></a>
+    <a href="#"><img src="https://img.icons8.com/ios-filled/50/ffffff/telegram-app.png"/></a>
+    <a href="#"><img src="https://img.icons8.com/ios-filled/50/ffffff/apple-mail.png"/></a>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const cocBtn = document.getElementById("coc-button");
+    const subscribeBtn = document.getElementById("subscribe-button");
+    const timerDiv = document.getElementById("timer");
+    const toggleModeBtn = document.getElementById("toggleMode");
+    let stage = 0;
+
+    function startTimer(seconds, callback) {
+      let timeLeft = seconds;
+      timerDiv.innerText = `Harap tunggu ${timeLeft} detik...`;
+      const countdown = setInterval(() => {
+        timeLeft--;
+        timerDiv.innerText = `Harap tunggu ${timeLeft} detik...`;
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          timerDiv.innerText = "";
+          callback();
+        }
+      }, 1000);
+    }
+
+    cocBtn.addEventListener("click", function () {
+      if (stage === 0) {
+        window.open("https://www.highperformancecpm.com/YOUR_ADSTERRA_KEY_HERE/popunder", "_blank");
+        cocBtn.disabled = true;
+        startTimer(15, () => {
+          cocBtn.innerText = "Menuju Download";
+          cocBtn.classList.remove("green");
+          cocBtn.classList.add("blue");
+          cocBtn.disabled = false;
+          stage = 1;
+        });
+      } else if (stage === 1) {
+        cocBtn.disabled = true;
+        startTimer(10, () => {
+          window.location.href = "https://yourdownloadlink.com/file-coc-server.apk";
+        });
+      }
+    });
+
+    subscribeBtn.addEventListener("click", function () {
+      window.open("https://youtube.com/yourchannel", "_blank");
+      subscribeBtn.innerText = "Subscribed";
+      subscribeBtn.classList.remove("red");
+      subscribeBtn.classList.add("gray");
+      subscribeBtn.disabled = true;
+    });
+
+    toggleModeBtn.addEventListener("click", () => {
+      const html = document.documentElement;
+      const current = html.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", next);
+      toggleModeBtn.innerText = next === "dark" ? "🌙 Mode" : "☀️ Mode";
+    });
+  </script>
+</body>
+</html>
