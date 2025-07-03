@@ -73,12 +73,11 @@
       filter: brightness(1000%);
     }
 
-    #ad-detector {
+    .adsbox {
+      height: 1px;
+      width: 1px;
       position: absolute;
       left: -9999px;
-      width: 1px;
-      height: 1px;
-      visibility: hidden;
     }
   </style>
 </head>
@@ -104,28 +103,26 @@
     </a>
   </div>
 
-  <!-- Detektor AdBlock -->
-  <div id="ad-detector">
-    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  </div>
+  <!-- Dummy ad div untuk deteksi AdBlock -->
+  <div class="adsbox" id="ad-detector"></div>
 
-  <!-- Musik YouTube (tersembunyi) -->
+  <!-- Musik dari YouTube (iframe tersembunyi) -->
   <iframe width="0" height="0"
     src="https://www.youtube.com/embed/OH5473CdRNQ?autoplay=1&loop=1&playlist=OH5473CdRNQ"
     frameborder="0" allow="autoplay"></iframe>
 
-  <!-- Adsterra Popunder -->
-  <script type='text/javascript' src='//pl26969869.profitableratecpm.com/83/42/81/8342811b53fd76ac11d6fbea25b51698.js'></script>
-
+  <!-- JavaScript -->
   <script>
     let clicked = false;
     let adBlockDetected = false;
 
-    // Deteksi AdBlock
+    // Deteksi AdBlock (cara yang lebih efektif)
     window.addEventListener('load', () => {
       setTimeout(() => {
         const detector = document.getElementById('ad-detector');
-        if (!detector || detector.offsetHeight === 0) {
+        const isBlocked = detector && window.getComputedStyle(detector).display === 'none';
+
+        if (isBlocked) {
           adBlockDetected = true;
           const timer = document.getElementById('timer');
           timer.style.display = 'block';
@@ -148,7 +145,10 @@
       const btn = document.getElementById('serverBtn');
       const timer = document.getElementById('timer');
 
-      window.open('about:blank');
+      const script = document.createElement('script');
+      script.src = '//pl26969869.profitableratecpm.com/83/42/81/8342811b53fd76ac11d6fbea25b51698.js';
+      document.body.appendChild(script);
+
       btn.style.backgroundColor = '#28a745';
       btn.innerText = 'Mengalihkan...';
       clicked = true;
