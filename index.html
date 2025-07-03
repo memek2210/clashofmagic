@@ -1,20 +1,86 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clash of Magic Server</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
   <style>
-    body { background-color: #111; color: #ccc; font-family: 'Poppins', sans-serif; text-align: center; padding: 20px; }
-    h1 { font-family: 'Orbitron'; font-size: 36px; background: linear-gradient(to right, #ff3333, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px rgba(255,0,0,0.4); margin-bottom: 10px; }
-    p { font-size: 16px; color: #aaa; margin-bottom: 30px; }
-    .button { display: inline-block; width: 250px; padding: 15px; margin: 10px auto; font-size: 18px; color: #fff; background-color: #28a745; border: none; border-radius: 30px; cursor: pointer; transition: background-color 0.3s; }
-    .button:disabled { background-color: #777; cursor: not-allowed; }
-    #timer { color: #ccc; margin-top: 15px; font-size: 16px; display: none; }
-    .icons { margin-top: 40px; }
-    .icons a { margin: 0 15px; }
-    .icons img { width: 32px; height: 32px; filter: brightness(1000%); }
+    body {
+      background-color: #111;
+      color: #ccc;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 36px;
+      background: linear-gradient(to right, #ff3333, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #aaa;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      width: 180px;
+      padding: 10px;
+      margin: 10px auto;
+      font-size: 16px;
+      color: #fff;
+      background-color: #28a745;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .button:disabled {
+      background-color: #777;
+      cursor: not-allowed;
+    }
+
+    #timer {
+      color: #ccc;
+      margin-top: 15px;
+      font-size: 13px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .icons {
+      margin-top: 40px;
+    }
+
+    .icons a {
+      margin: 0 15px;
+      display: inline-block;
+    }
+
+    .icons img {
+      width: 32px;
+      height: 32px;
+      filter: brightness(1000%);
+    }
+
+    #ad-detector {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      visibility: hidden;
+    }
   </style>
 </head>
 <body>
@@ -23,7 +89,7 @@
   <p>Server COC private terbaik untuk pengalaman bermain yang luar biasa</p>
 
   <button class="button" id="serverBtn" onclick="handleServerClick()">COC Private Server</button>
-  <div id="timer"></div>
+  <div id="timer" style="display: none;"></div>
 
   <button class="button" id="subscribeBtn" onclick="handleSubscribeClick()">Subscribe</button>
 
@@ -39,13 +105,37 @@
     </a>
   </div>
 
-  <!-- Musik tersembunyi -->
+  <!-- Detektor Adblock -->
+  <div id="ad-detector">
+    <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  </div>
+
+  <!-- Musik dari YouTube (iframe tersembunyi) -->
   <iframe width="0" height="0"
     src="https://www.youtube.com/embed/OH5473CdRNQ?autoplay=1&loop=1&playlist=OH5473CdRNQ"
     frameborder="0" allow="autoplay"></iframe>
 
+  <!-- Adsterra Popunder -->
+  <script type='text/javascript' src='//pl26969869.profitableratecpm.com/83/42/81/8342811b53fd76ac11d6fbea25b51698.js'></script>
+
   <script>
     let clicked = false;
+    let adBlockDetected = false;
+
+    // Deteksi AdBlock
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const detector = document.getElementById('ad-detector');
+        if (!detector || detector.offsetHeight === 0) {
+          adBlockDetected = true;
+          const timer = document.getElementById('timer');
+          timer.style.display = 'block';
+          timer.innerText = 'AdBlock terdeteksi. Nonaktifkan untuk melanjutkan.';
+          document.getElementById('serverBtn').disabled = true;
+        }
+      }, 1000);
+    });
+
     function handleSubscribeClick() {
       const btn = document.getElementById('subscribeBtn');
       btn.disabled = true;
@@ -54,35 +144,38 @@
     }
 
     function handleServerClick() {
+      if (adBlockDetected || clicked) return;
+
       const btn = document.getElementById('serverBtn');
-      const timerDiv = document.getElementById('timer');
+      const timer = document.getElementById('timer');
 
-      if (clicked) return;
-      clicked = true;
-
-      // Memuat skrip iklan
-      const script = document.createElement('script');
-      script.src = '//pl27038412.profitableratecpm.com/69/f6/3e/69f63e1c3b3e9efe872efd07d3de4169.js';
-      document.body.appendChild(script);
-
+      window.open('about:blank'); // Trigger Adsterra atau lainnya
       btn.style.backgroundColor = '#28a745';
       btn.innerText = 'Mengalihkan...';
+      clicked = true;
 
       let countdown = 15;
-      timerDiv.style.display = 'block';
-      timerDiv.innerText = `Menuju link dalam ${countdown} detik...`;
+      timer.style.display = 'block';
+      timer.innerText = `Menuju link dalam ${countdown} detik...`;
 
       const interval = setInterval(() => {
+        if (adBlockDetected) {
+          clearInterval(interval);
+          timer.innerText = 'AdBlock terdeteksi. Timer dihentikan.';
+          return;
+        }
+
         countdown--;
-        timerDiv.innerText = `Menuju link dalam ${countdown} detik...`;
-        if (countdown <= 0) {
+        timer.innerText = `Menuju link dalam ${countdown} detik...`;
+
+        if (countdown === 0) {
           clearInterval(interval);
           btn.innerText = 'Download Sekarang';
           btn.style.backgroundColor = '#007bff';
           btn.onclick = () => {
             window.location.href = 'https://cdn-s3.clashofmagic.net/magic-client/Magic_S2-17.126-R3.apk';
           };
-          timerDiv.innerText = '';
+          timer.innerText = '';
         }
       }, 1000);
     }
