@@ -106,9 +106,9 @@
   <!-- Dummy ad div untuk deteksi AdBlock -->
   <div class="adsbox" id="ad-detector"></div>
 
-  <!-- Musik dari YouTube (iframe tersembunyi) -->
+  <!-- Musik dari YouTube (shorts yang kamu minta) -->
   <iframe width="0" height="0"
-    src="https://www.youtube.com/embed/OH5473CdRNQ?autoplay=1&loop=1&playlist=OH5473CdRNQ"
+    src="https://www.youtube.com/embed/0EAiWFEVZ0Q?autoplay=1&loop=1&playlist=0EAiWFEVZ0Q"
     frameborder="0" allow="autoplay"></iframe>
 
   <!-- JavaScript -->
@@ -116,20 +116,18 @@
     let clicked = false;
     let adBlockDetected = false;
 
-    // Deteksi AdBlock (cara yang lebih efektif)
+    // Deteksi AdBlock dengan bait script
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        const detector = document.getElementById('ad-detector');
-        const isBlocked = detector && window.getComputedStyle(detector).display === 'none';
-
-        if (isBlocked) {
-          adBlockDetected = true;
-          const timer = document.getElementById('timer');
-          timer.style.display = 'block';
-          timer.innerText = 'AdBlock terdeteksi. Nonaktifkan untuk melanjutkan.';
-          document.getElementById('serverBtn').disabled = true;
-        }
-      }, 1000);
+      const bait = document.createElement('script');
+      bait.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+      bait.onerror = () => {
+        adBlockDetected = true;
+        const timer = document.getElementById('timer');
+        timer.style.display = 'block';
+        timer.innerText = 'AdBlock terdeteksi. Nonaktifkan untuk melanjutkan.';
+        document.getElementById('serverBtn').disabled = true;
+      };
+      document.body.appendChild(bait);
     });
 
     function handleSubscribeClick() {
